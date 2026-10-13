@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UrbanWeave – Sustainable Fashion, Conscious Cloth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fdf8f4; --bg2:#f7eee6; --card:#ffffff; --ink:#1f2d2e; --muted:#5b6665; --line:#eadfd5;
+  --accent:#b8693d; --accent-ink:#ffffff; --tan:#ecd0b3; --tan-ink:#3a2a1c; --green:#7fb14a; --dark:#1f2d2e; --dark-ink:#fdf8f4;
+  --wall:#e7e3de; --art:#f3e9de;
+  color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#141b1b; --bg2:#1a2323; --card:#1e2828; --ink:#f5ece3; --muted:#a9b4b2; --line:#2c3a3a;
+    --accent:#d48552; --accent-ink:#1a1209; --tan:#4a3524; --tan-ink:#f1d9c0; --dark:#f5ece3; --dark-ink:#141b1b;
+    --wall:#2a3333; --art:#243030; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141b1b; --bg2:#1a2323; --card:#1e2828; --ink:#f5ece3; --muted:#a9b4b2; --line:#2c3a3a;
+  --accent:#d48552; --accent-ink:#1a1209; --tan:#4a3524; --tan-ink:#f1d9c0; --dark:#f5ece3; --dark-ink:#141b1b;
+  --wall:#2a3333; --art:#243030; color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(88px + env(safe-area-inset-top,0px));height:100%}
+body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;min-height:100%}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .15s,background .2s,opacity .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-dark{background:var(--dark);color:var(--dark-ink)}
+.btn-dark:hover{opacity:.88}
+.btn-accent{background:var(--accent);color:var(--accent-ink)}
+.btn-accent:hover{opacity:.9}
+.btn-line{border:1.5px solid var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--bg)}
+.btn-sm{padding:10px 18px;font-size:14px}
+.btn-block{width:100%}
+
+/* announcement */
+.announce{background:var(--dark);color:var(--dark-ink);font-size:13.5px;text-align:center;padding:9px 16px;font-weight:500}
+.announce a{text-decoration:underline;text-underline-offset:3px}
+
+/* header */
+header.site{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:23px;letter-spacing:-.02em}
+.logo-mark{width:40px;height:40px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:20px;letter-spacing:-.04em}
+.menu{display:flex;gap:34px;font-size:15.5px;font-weight:500;color:var(--muted)}
+.menu a{padding:6px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.menu a:hover,.menu a.active{color:var(--ink);border-color:var(--accent)}
+.actions{display:flex;align-items:center;gap:6px}
+.icon-btn{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;position:relative;transition:background .2s}
+.icon-btn:hover{background:var(--bg2)}
+.icon-btn svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.badge-count{position:absolute;top:2px;right:0;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 5px}
+.badge-count:empty,.badge-count[data-n="0"]{display:none}
+.burger{display:none}
+.mobile-menu{display:none;border-top:1px solid var(--line);padding:12px 24px 20px}
+.mobile-menu a{display:block;padding:12px 0;font-weight:500;border-bottom:1px solid var(--line)}
+.mobile-menu.open{display:block}
+
+/* hero */
+.hero{padding:64px 0 80px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:9px;background:var(--tan);color:var(--tan-ink);padding:9px 18px;border-radius:999px;font-size:13.5px;font-weight:500}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--green);display:block}
+h1{font-size:clamp(40px,5.6vw,68px);line-height:1.08;letter-spacing:-.035em;font-weight:700;margin:26px 0 22px}
+h1 em{font-style:normal;color:var(--accent);text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:9px}
+.lead{font-size:18px;color:var(--muted);max-width:480px}
+.hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:36px;margin-top:44px;flex-wrap:wrap}
+.hero-stats b{display:block;font-size:26px;letter-spacing:-.02em}
+.hero-stats span{font-size:14px;color:var(--muted)}
+.frame{border:2px dashed #cfae92;border-radius:32px;padding:12px;position:relative}
+.frame-in{border-radius:22px;overflow:hidden;background:var(--wall);aspect-ratio:4/4.4}
+.frame-in svg{width:100%;height:100%}
+.float-card{position:absolute;left:-26px;bottom:38px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;display:flex;gap:12px;align-items:center;box-shadow:0 14px 32px -16px rgba(31,45,46,.35)}
+.float-card .dot{width:38px;height:38px;border-radius:50%;background:var(--tan);display:grid;place-items:center;font-size:18px}
+.float-card b{display:block;font-size:14px;line-height:1.2}
+.float-card span{font-size:12.5px;color:var(--muted)}
+
+/* trust strip */
+.trust{border-block:1px solid var(--line);background:var(--bg2)}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:28px 0}
+.trust-item{display:flex;gap:14px;align-items:center}
+.trust-item svg{width:30px;height:30px;stroke:var(--accent);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.trust-item b{display:block;font-size:15px;line-height:1.3}
+.trust-item span{font-size:13.5px;color:var(--muted)}
+
+/* sections */
+section.s{padding:92px 0}
+.s-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px;flex-wrap:wrap}
+h2{font-size:clamp(30px,3.8vw,44px);line-height:1.12;letter-spacing:-.03em;font-weight:700}
+.s-head p{color:var(--muted);max-width:480px;margin-top:12px}
+.link{font-weight:600;border-bottom:2px solid var(--accent);padding-bottom:2px}
+
+/* categories */
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.cat{border-radius:24px;padding:28px;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:transform .25s}
+.cat:hover{transform:translateY(-4px)}
+.cat h3{font-size:26px;letter-spacing:-.02em}
+.cat p{font-size:14.5px;opacity:.8}
+.cat svg{position:absolute;right:-20px;bottom:-24px;width:70%;opacity:.95}
+.cat .go{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.55);color:#1f2d2e;font-size:20px;position:relative;z-index:1}
+.cat-a{background:#d9c3a8;color:#2b2016}.cat-b{background:#e2b9a0;color:#2d1b12}.cat-c{background:#c2cdbd;color:#1d2a1d}
+
+/* shop */
+.shop-bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:30px;align-items:center}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:999px;border:1.5px solid var(--line);font-weight:500;font-size:14.5px;transition:all .2s}
+.tab:hover{border-color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--dark);color:var(--dark-ink);border-color:var(--dark)}
+.sort{padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);font-size:14.5px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.card{display:flex;flex-direction:column}
+.card-art{aspect-ratio:4/5;background:var(--art);border-radius:20px;position:relative;overflow:hidden;cursor:pointer}
+.card-art svg{width:100%;height:100%;padding:12%;transition:transform .35s}
+.card-art:hover svg{transform:scale(1.05)}
+.tag{position:absolute;top:14px;left:14px;background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:600;padding:4px 11px;border-radius:999px}
+.heart{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;background:var(--card);display:grid;place-items:center}
+.heart svg{width:18px;height:18px;padding:0;stroke:var(--ink);fill:none;stroke-width:1.8}
+.heart[aria-pressed="true"] svg{fill:var(--accent);stroke:var(--accent)}
+.card-body{padding:16px 4px 0}
+.card-meta{font-size:13px;color:var(--muted)}
+.card h3{font-size:16.5px;font-weight:600;margin:3px 0 6px;letter-spacing:-.01em}
+.price-row{display:flex;justify-content:space-between;align-items:center}
+.price{font-weight:700}
+.price s{color:var(--muted);font-weight:400;margin-left:6px;font-size:14px}
+.swatches{display:flex;gap:6px}
+.sw{width:18px;height:18px;border-radius:50%;border:2px solid var(--card);box-shadow:0 0 0 1px var(--line)}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 0}
+
+/* material / impact */
+.dark-band{background:var(--dark);color:var(--dark-ink);border-radius:36px;padding:64px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.dark-band p{opacity:.78;margin-top:16px;max-width:460px}
+.impact{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.impact div{border:1px solid color-mix(in srgb,var(--dark-ink) 22%,transparent);border-radius:20px;padding:24px}
+.impact b{font-size:38px;letter-spacing:-.03em;display:block;line-height:1.1}
+.impact span{font-size:14px;opacity:.75}
+.fabrics{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px}
+.fabric{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px}
+.fabric .sw-big{width:54px;height:54px;border-radius:16px;margin-bottom:18px;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.28) 0 2px,transparent 2px 7px),repeating-linear-gradient(-45deg,rgba(0,0,0,.08) 0 2px,transparent 2px 7px)}
+.fabric h3{font-size:18px;margin-bottom:6px}
+.fabric p{font-size:14.5px;color:var(--muted)}
+
+/* story */
+.story{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
+.story-art{aspect-ratio:1/1.05;border-radius:28px;background:var(--tan);position:relative;overflow:hidden}
+.story-art svg{width:100%;height:100%}
+.story p{color:var(--muted);margin-top:18px}
+.values{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:32px}
+.values b{display:block;margin-bottom:2px}
+.values span{font-size:14.5px;color:var(--muted)}
+
+/* journal */
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.post{cursor:pointer;text-align:left}
+.post-art{aspect-ratio:16/11;border-radius:20px;overflow:hidden;margin-bottom:16px}
+.post-art svg{width:100%;height:100%;transition:transform .35s}
+.post:hover .post-art svg{transform:scale(1.04)}
+.post small{color:var(--muted);font-size:13px}
+.post h3{font-size:19px;letter-spacing:-.01em;margin-top:4px;line-height:1.35}
+
+/* reviews */
+.reviews{background:var(--bg2);border-block:1px solid var(--line)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.rev{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px}
+.stars{color:var(--accent);letter-spacing:2px;font-size:16px}
+.rev p{margin:12px 0 18px}
+.rev b{font-size:14.5px}.rev span{display:block;font-size:13px;color:var(--muted)}
+
+/* newsletter */
+.news{background:var(--accent);color:var(--accent-ink);border-radius:36px;padding:64px;text-align:center}
+.news p{opacity:.9;margin:12px auto 28px;max-width:480px}
+.news form{display:flex;gap:10px;max-width:480px;margin:0 auto;background:rgba(255,255,255,.95);padding:6px;border-radius:999px}
+.news input{flex:1;border:0;background:transparent;padding:0 18px;color:#1f2d2e;min-width:0;outline:0}
+.news small{display:block;margin-top:14px;opacity:.8;font-size:13px}
+
+/* faq */
+.faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px}
+details{border-bottom:1px solid var(--line);padding:22px 0}
+details:first-child{border-top:1px solid var(--line)}
+summary{font-weight:600;font-size:17px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:26px;color:var(--accent);line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);margin-top:12px;max-width:560px}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.info-list{margin-top:28px;display:grid;gap:22px}
+.info-list b{display:block}.info-list span{color:var(--muted);font-size:15px}
+.form{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:34px;display:grid;gap:16px}
+label{font-size:14px;font-weight:600;display:grid;gap:6px}
+.field{width:100%;padding:13px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg)}
+.field:focus{outline:0;border-color:var(--accent)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.err{color:#c0392b;font-size:13px;font-weight:500}
+
+/* footer */
+footer{background:var(--dark);color:var(--dark-ink);padding:72px 0 28px;margin-top:92px}
+.f-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}
+footer .logo-mark{background:var(--accent)}
+footer p{opacity:.7;font-size:14.5px;margin-top:16px;max-width:300px}
+footer h4{font-size:14px;margin-bottom:16px;opacity:.65;font-weight:600}
+footer ul{list-style:none;display:grid;gap:10px;font-size:15px}
+footer li a,footer li button{opacity:.9;text-align:left}
+footer li a:hover,footer li button:hover{opacity:1;text-decoration:underline}
+.social{display:flex;gap:10px;margin-top:20px}
+.social a{width:40px;height:40px;border:1px solid rgba(255,255,255,.25);border-radius:50%;display:grid;place-items:center;transition:background .2s}
+.social a:hover{background:rgba(255,255,255,.12)}
+.social svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.f-bottom{border-top:1px solid rgba(255,255,255,.15);margin-top:52px;padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13.5px;opacity:.75}
+.pay{display:flex;gap:8px}
+.pay span{border:1px solid rgba(255,255,255,.3);border-radius:6px;padding:2px 9px;font-size:12px;font-weight:600}
+
+/* drawer / modal */
+.overlay{position:fixed;inset:0;background:rgba(20,27,27,.55);z-index:90;opacity:0;pointer-events:none;transition:opacity .25s}
+.overlay.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--bg);z-index:100;transform:translateX(100%);transition:transform .3s cubic-bezier(.3,.8,.3,1);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.open{transform:none}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line)}
+.drawer-head h3{font-size:20px}
+.drawer-body{flex:1;overflow:auto;padding:20px 24px}
+.drawer-foot{border-top:1px solid var(--line);padding:20px 24px;display:grid;gap:12px}
+.ship-bar{background:var(--bg2);border-radius:14px;padding:14px 16px;font-size:14px;margin-bottom:18px}
+.ship-bar .track{height:6px;border-radius:3px;background:var(--line);margin-top:10px;overflow:hidden}
+.ship-bar .fill{height:100%;background:var(--accent);transition:width .3s}
+.line-item{display:grid;grid-template-columns:76px 1fr auto;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.line-item .th{aspect-ratio:1;border-radius:12px;background:var(--art)}
+.line-item .th svg{width:100%;height:100%;padding:8%}
+.line-item b{font-size:15px;display:block;line-height:1.3}
+.line-item small{color:var(--muted);font-size:13px}
+.qty{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;margin-top:8px}
+.qty button{width:30px;height:30px;font-size:16px}
+.qty span{min-width:24px;text-align:center;font-size:14px;font-weight:600}
+.rm{font-size:13px;color:var(--muted);text-decoration:underline;display:block;margin-top:6px}
+.sum-row{display:flex;justify-content:space-between;font-size:15px}
+.sum-row.total{font-weight:700;font-size:18px}
+.promo{display:flex;gap:8px}
+.promo .field{padding:10px 14px}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%);width:min(900px,calc(100% - 32px));max-height:calc(100% - 48px);overflow:auto;background:var(--bg);border-radius:28px;z-index:110;opacity:0;pointer-events:none;transition:all .25s}
+.modal.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.modal.narrow{width:min(560px,calc(100% - 32px))}
+.modal-x{position:absolute;top:14px;right:14px;z-index:2;background:var(--card);border:1px solid var(--line);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:20px}
+.qv{display:grid;grid-template-columns:1fr 1fr}
+.qv-art{background:var(--art);aspect-ratio:1/1.05;padding:12%}
+.qv-info{padding:40px 36px}
+.qv-info h3{font-size:28px;letter-spacing:-.02em;line-height:1.2;margin:6px 0 10px}
+.qv-info .price{font-size:22px}
+.qv-info p{color:var(--muted);margin:14px 0}
+.opt-label{font-size:14px;font-weight:600;margin:18px 0 8px;display:flex;justify-content:space-between}
+.opt-label a{font-weight:500;color:var(--muted);text-decoration:underline;cursor:pointer;background:none;border:0}
+.sizes{display:flex;gap:8px;flex-wrap:wrap}
+.size{min-width:46px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;font-weight:500;font-size:14px}
+.size[aria-pressed="true"]{background:var(--dark);color:var(--dark-ink);border-color:var(--dark)}
+.qv-actions{display:flex;gap:12px;margin-top:26px;align-items:center}
+.details-list{list-style:none;margin-top:22px;display:grid;gap:8px;font-size:14px;color:var(--muted)}
+.details-list li::before{content:"✓";color:var(--accent);font-weight:700;margin-right:10px}
+.m-pad{padding:40px 36px}
+.m-pad h3{font-size:26px;letter-spacing:-.02em;margin-bottom:14px}
+.m-pad p,.m-pad li{color:var(--muted);margin-bottom:12px;font-size:15.5px}
+.m-pad ul{padding-left:20px}
+.m-pad table{width:100%;border-collapse:collapse;font-size:14.5px;margin:10px 0}
+.m-pad th,.m-pad td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+.search-box{padding:28px 32px 10px}
+.search-box .field{font-size:18px;padding:16px 20px}
+.search-res{padding:10px 32px 32px;display:grid;gap:4px;max-height:50vh;overflow:auto}
+.sr-item{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;padding:10px;border-radius:14px;text-align:left}
+.sr-item:hover{background:var(--bg2)}
+.sr-item .th{width:56px;height:56px;border-radius:10px;background:var(--art)}
+.sr-item .th svg{width:100%;height:100%;padding:6px}
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,30px);background:var(--dark);color:var(--dark-ink);padding:13px 22px;border-radius:999px;font-size:14.5px;font-weight:500;z-index:200;opacity:0;pointer-events:none;transition:all .3s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.done{text-align:center;padding:56px 36px}
+.done .big{width:72px;height:72px;border-radius:50%;background:var(--tan);display:grid;place-items:center;margin:0 auto 20px;font-size:32px}
+
+@media (max-width:1020px){
+  .menu{display:none}.burger{display:grid}
+  .hero-grid,.story,.faq-wrap,.contact,.dark-band{grid-template-columns:1fr}
+  .dark-band{padding:44px 28px}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .cats,.posts,.rev-grid{grid-template-columns:1fr}
+  .cat{min-height:240px}
+  .trust-grid{grid-template-columns:1fr 1fr}
+  .fabrics{grid-template-columns:1fr 1fr}
+  .f-grid{grid-template-columns:1fr 1fr}
+  .float-card{left:12px}
+  .qv{grid-template-columns:1fr}
+  .qv-art{aspect-ratio:1/.8}
+  .news{padding:44px 24px}
+  section.s{padding:64px 0}
+}
+@media (max-width:560px){
+  .wrap{padding:0 18px}
+  .grid{gap:14px}
+  .row2{grid-template-columns:1fr}
+  .fabrics,.impact{grid-template-columns:1fr}
+  .hero{padding:36px 0 56px}
+  .hero-stats{gap:24px}
+  .qv-info,.m-pad{padding:28px 22px}
+  .news form{flex-direction:column;border-radius:24px;padding:10px}
+  .news input{padding:12px 14px}
+  .values{grid-template-columns:1fr}
+  .btn{padding:13px 22px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="announce">Free shipping on orders over RM250 · Use code <b>WEAVE10</b> for 10% off your first order · <a href="#newsletter">Join the list</a></div>
+
+<header class="site">
+  <div class="wrap nav">
+    <a href="#top" class="logo" aria-label="UrbanWeave home"><span class="logo-mark">W</span>UrbanWeave</a>
+    <nav class="menu" aria-label="Main">
+      <a href="#shop" data-filter="new">New Arrivals</a>
+      <a href="#shop" data-filter="men">Men</a>
+      <a href="#shop" data-filter="women">Women</a>
+      <a href="#shop" data-filter="accessories">Accessories</a>
+      <a href="#sustainability">Sustainability</a>
+      <a href="#story">Our Story</a>
+    </nav>
+    <div class="actions">
+      <button class="icon-btn" id="searchBtn" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <button class="icon-btn" id="wishBtn" aria-label="Wishlist"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9-9.2C1.7 7.5 3.6 4 7 4c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.300 3.500 4 6.800-2 4.800-9 9.200-9 9.200z"/></svg><span class="badge-count" id="wishCount" data-n="0"></span></button>
+      <button class="icon-btn" id="cartBtn" aria-label="Open cart"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1.200 12H6.200z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="badge-count" id="cartCount" data-n="0"></span></button>
+      <button class="icon-btn burger" id="burger" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#shop" data-filter="new">New Arrivals</a><a href="#shop" data-filter="men">Men</a><a href="#shop" data-filter="women">Women</a><a href="#shop" data-filter="accessories">Accessories</a><a href="#sustainability">Sustainability</a><a href="#story">Our Story</a><a href="#journal">Journal</a><a href="#contact">Contact</a>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill"><i></i>Sustainable Fashion · Conscious Cloth</span>
+      <h1>Style that feels <em>good &amp; does good</em></h1>
+      <p class="lead">Discover timeless pieces made from eco-friendly fabrics. Every purchase gives back to ethical fashion movements.</p>
+      <div class="hero-cta">
+        <a href="#shop" class="btn btn-dark">Shop the collection <span aria-hidden="true">→</span></a>
+        <a href="#sustainability" class="btn btn-line">How we make it</a>
+      </div>
+      <div class="hero-stats">
+        <div><b>100%</b><span>Traceable supply chain</span></div>
+        <div><b>12k+</b><span>Trees planted with every order</span></div>
+        <div><b>4.9★</b><span>From 3,200 reviews</span></div>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="frame-in" id="heroArt"></div>
+      <div class="float-card"><div class="dot">🌿</div><div><b>Organic &amp; recycled</b><span>Certified fabrics only</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust"><div class="wrap trust-grid">
+  <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.800"/><circle cx="17" cy="18" r="1.800"/></svg><div><b>Free shipping</b><span>On orders over RM250</span></div></div>
+  <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.300L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.300L4 15M4 20v-5h5"/></svg><div><b>30-day returns</b><span>Free, no questions asked</span></div></div>
+  <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19c3-5 6-8 10-10"/></svg><div><b>Certified fabrics</b><span>GOTS &amp; OEKO-TEX</span></div></div>
+  <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><div><b>Secure checkout</b><span>Cards, FPX &amp; e-wallets</span></div></div>
+</div></div>
+
+<!-- CATEGORIES -->
+<section class="s">
+  <div class="wrap">
+    <div class="s-head"><div><h2>Shop by category</h2><p>Wardrobe staples cut for everyday life and made to last for years, not seasons.</p></div></div>
+    <div class="cats">
+      <a href="#shop" class="cat cat-a" data-filter="men"><div><h3>Men</h3><p>Tailoring, tees &amp; trousers</p></div><span class="go">→</span><span id="catArtA"></span></a>
+      <a href="#shop" class="cat cat-b" data-filter="women"><div><h3>Women</h3><p>Dresses, shirts &amp; knits</p></div><span class="go">→</span><span id="catArtB"></span></a>
+      <a href="#shop" class="cat cat-c" data-filter="accessories"><div><h3>Accessories</h3><p>Totes, caps &amp; scarves</p></div><span class="go">→</span><span id="catArtC"></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="s" id="shop" style="padding-top:0">
+  <div class="wrap">
+    <div class="s-head"><div><h2>The collection</h2><p>Every piece is made in small batches from organic, recycled or regenerated fibres.</p></div></div>
+    <div class="shop-bar">
+      <div class="tabs" id="tabs" role="group" aria-label="Filter products">
+        <button class="tab" data-f="all" aria-pressed="true">All</button>
+        <button class="tab" data-f="new" aria-pressed="false">New Arrivals</button>
+        <button class="tab" data-f="men" aria-pressed="false">Men</button>
+        <button class="tab" data-f="women" aria-pressed="false">Women</button>
+        <button class="tab" data-f="accessories" aria-pressed="false">Accessories</button>
+      </div>
+      <label class="sr" for="sort">Sort products</label>
+      <select class="sort" id="sort"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- SUSTAINABILITY -->
+<section class="s" id="sustainability" style="padding-top:20px">
+  <div class="wrap">
+    <div class="dark-band">
+      <div>
+        <h2>Fashion that gives back more than it takes</h2>
+        <p>We trace every garment from seed to stitch. Our fabrics use a fraction of the water of conventional cloth, and 5% of every order funds ethical fashion and reforestation projects across Southeast Asia.</p>
+        <a href="#journal" class="btn btn-accent" style="margin-top:28px">Read our impact report</a>
+      </div>
+      <div class="impact">
+        <div><b data-count="92">0</b><span>% less water than conventional cotton</span></div>
+        <div><b data-count="38">0</b><span>Partner workshops, fairly paid</span></div>
+        <div><b data-count="12400">0</b><span>Trees planted since 2021</span></div>
+        <div><b data-count="100">0</b><span>% plastic-free packaging</span></div>
+      </div>
+    </div>
+    <div class="fabrics">
+      <div class="fabric"><div class="sw-big" style="background-color:#c9a27b"></div><h3>Organic cotton</h3><p>Grown without synthetic pesticides, soft from the first wear.</p></div>
+      <div class="fabric"><div class="sw-big" style="background-color:#8aa17d"></div><h3>Hemp &amp; linen</h3><p>Naturally durable, breathable and low-impact to grow.</p></div>
+      <div class="fabric"><div class="sw-big" style="background-color:#6f8aa0"></div><h3>Tencel™ lyocell</h3><p>Wood pulp from certified forests, spun in a closed loop.</p></div>
+      <div class="fabric"><div class="sw-big" style="background-color:#a45f45"></div><h3>Recycled wool</h3><p>Reclaimed offcuts and garments given a second life.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="s" id="story" style="padding-top:20px">
+  <div class="wrap story">
+    <div class="story-art" id="storyArt"></div>
+    <div>
+      <h2>Made slowly, worn for years</h2>
+      <p>UrbanWeave began in 2021 with a simple frustration: clothes that looked good often came at a cost to people and planet. We started with five pieces, one small workshop and a rule that every fabric must be traceable.</p>
+      <p>Today we work with 38 partner workshops, pay living wages and publish what each garment costs us to make. We design fewer pieces so each one earns its place in your wardrobe.</p>
+      <div class="values">
+        <div><b>Ethical making</b><span>Living wages and safe workshops, audited yearly.</span></div>
+        <div><b>Honest materials</b><span>Certified fibres with the origin on every label.</span></div>
+        <div><b>Timeless design</b><span>Cuts that outlast trends and fit many bodies.</span></div>
+        <div><b>Repair &amp; recycle</b><span>Free mending and take-back for worn pieces.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNAL -->
+<section class="s" id="journal" style="padding-top:20px">
+  <div class="wrap">
+    <div class="s-head"><div><h2>From the journal</h2><p>Care guides, maker stories and the thinking behind what we do.</p></div></div>
+    <div class="posts" id="posts"></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="s reviews">
+  <div class="wrap">
+    <div class="s-head"><div><h2>Loved by people who care</h2><p>Real words from customers who wear UrbanWeave every week.</p></div></div>
+    <div class="rev-grid">
+      <div class="rev"><div class="stars">★★★★★</div><p>The Oxford shirt is the softest I own and it still looks sharp after 20 washes. Knowing where it came from makes it even better.</p><b>Aiman R.</b><span>Verified buyer · Oxford Shirt</span></div>
+      <div class="rev"><div class="stars">★★★★★</div><p>The linen wrap dress is perfect for our humid weather. It breathes beautifully and the fit is flattering without being fussy.</p><b>Sofea L.</b><span>Verified buyer · Linen Wrap Dress</span></div>
+      <div class="rev"><div class="stars">★★★★★</div><p>Fast delivery, plastic-free packaging and a handwritten note. They also fixed a loose button for free. This is how brands should work.</p><b>Daniel T.</b><span>Verified buyer · Canvas Tote</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="s" id="newsletter">
+  <div class="wrap">
+    <div class="news">
+      <h2>Get 10% off your first order</h2>
+      <p>Join the UrbanWeave list for early access to new drops, care tips and stories from our workshops.</p>
+      <form id="newsForm" novalidate>
+        <label class="sr" for="newsEmail">Email address</label>
+        <input type="email" id="newsEmail" placeholder="Enter your email" required>
+        <button class="btn btn-dark" type="submit">Subscribe</button>
+      </form>
+      <small>No spam. Unsubscribe anytime.</small>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="s" id="faq" style="padding-top:0">
+  <div class="wrap faq-wrap">
+    <div><h2>Questions, answered</h2><p style="color:var(--muted);margin-top:14px;max-width:340px">Can't find what you need? Our team replies within one working day.</p><a href="#contact" class="btn btn-line btn-sm" style="margin-top:22px">Contact us</a></div>
+    <div>
+      <details><summary>How long does delivery take?</summary><p>Orders ship within 2 working days. Peninsular Malaysia usually arrives in 2–4 days, East Malaysia and Singapore in 5–7 days.</p></details>
+      <details><summary>What is your returns policy?</summary><p>Return unworn items with tags within 30 days for a full refund or exchange. Returns are free within Malaysia.</p></details>
+      <details><summary>How do I find my size?</summary><p>Use the size guide on any product page. Our pieces are cut true to size; if you're between sizes, we suggest sizing up for a relaxed fit.</p></details>
+      <details><summary>How do I care for my garments?</summary><p>Wash cold, line dry and skip the tumble dryer. Each product page lists specific care steps, and we offer free mending for any UrbanWeave piece.</p></details>
+      <details><summary>Are your products really sustainable?</summary><p>Every fabric is certified (GOTS, OEKO-TEX or Recycled Claim Standard) and we publish our supplier list and yearly impact report.</p></details>
+      <details><summary>Which payment methods do you accept?</summary><p>Visa, Mastercard, FPX online banking, Touch 'n Go eWallet and GrabPay.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="s" id="contact" style="padding-top:0">
+  <div class="wrap contact">
+    <div>
+      <h2>Visit or get in touch</h2>
+      <p style="color:var(--muted);margin-top:14px;max-width:420px">Questions about an order, fit or wholesale? Send us a note or drop by the studio.</p>
+      <div class="info-list">
+        <div><b>Studio &amp; store</b><span>12 Jalan Tenun, Kuala Lumpur, Malaysia</span></div>
+        <div><b>Opening hours</b><span>Mon–Sat 10am–7pm · Sun 11am–5pm</span></div>
+        <div><b>Email</b><span>hello@urbanweave.example</span></div>
+        <div><b>Phone &amp; WhatsApp</b><span>+60 3-1234 5678</span></div>
+      </div>
+    </div>
+    <form class="form" id="contactForm" novalidate>
+      <div class="row2">
+        <label>Name<input class="field" name="name" required autocomplete="name"></label>
+        <label>Email<input class="field" type="email" name="email" required autocomplete="email"></label>
+      </div>
+      <label>Topic<select class="field" name="topic"><option>Order help</option><option>Sizing &amp; fit</option><option>Returns</option><option>Wholesale</option><option>Press</option></select></label>
+      <label>Message<textarea class="field" name="msg" rows="5" required></textarea></label>
+      <div class="err" id="contactErr" role="alert"></div>
+      <button class="btn btn-dark" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <a href="#top" class="logo"><span class="logo-mark">W</span>UrbanWeave</a>
+        <p>Timeless clothing made from eco-friendly fabrics. Every purchase gives back to ethical fashion movements.</p>
+        <div class="social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.500" cy="6.500" r=".6"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M14 3v11.500a3.500 3.500 0 1 1-3.500-3.500M14 3c0 3 2 5 5 5"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9.500 5 2.500-5 2.500z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Shop</h4><ul><li><a href="#shop" data-filter="new">New Arrivals</a></li><li><a href="#shop" data-filter="men">Men</a></li><li><a href="#shop" data-filter="women">Women</a></li><li><a href="#shop" data-filter="accessories">Accessories</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#story">Our Story</a></li><li><a href="#sustainability">Sustainability</a></li><li><a href="#journal">Journal</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><button data-policy="shipping">Shipping</button></li><li><button data-policy="returns">Returns &amp; exchanges</button></li><li><button data-policy="size">Size guide</button></li><li><button data-policy="privacy">Privacy policy</button></li><li><button data-policy="terms">Terms of service</button></li></ul></div>
+    </div>
+    <div class="f-bottom"><span>© 2026 UrbanWeave Sdn. Bhd. All rights reserved.</span><div class="pay"><span>VISA</span><span>MC</span><span>FPX</span><span>TNG</span></div></div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping cart" aria-hidden="true">
+  <div class="drawer-head"><h3>Your cart</h3><button class="icon-btn" id="closeCart" aria-label="Close cart"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot"></div>
+</aside>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><button class="modal-x" id="modalX" aria-label="Close">×</button><div id="modalBody"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const money=n=>'RM'+n.toLocaleString('en-MY',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+const FREE_SHIP=250, SHIP=12;
+
+/* ---------- SVG art ---------- */
+function shade(hex,a){let h=hex.replace('#','');let n=parseInt(h,16);let r=n>>16,g=n>>8&255,b=n&255;const f=c=>Math.max(0,Math.min(255,Math.round(a<0?c*(1+a):c+(255-c)*a)));return '#'+[f(r),f(g),f(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function art(type,c){
+  const d=shade(c,-.18),l=shade(c,.2),s=`stroke="${d}" stroke-width="2" stroke-linejoin="round"`;
+  let b='';
+  switch(type){
+  case 'tee':b=`<path d="M62 38 L92 28 Q100 46 108 28 L138 38 L176 76 L153 98 L140 86 L140 208 L60 208 L60 86 L47 98 L24 76 Z" fill="${c}" ${s}/><path d="M92 28 Q100 46 108 28" fill="none" stroke="${d}" stroke-width="3"/><path d="M60 196 H140" stroke="${d}" stroke-width="1.500" opacity=".5"/>`;break;
+  case 'shirt':b=`<path d="M62 36 L92 26 L100 44 L108 26 L138 36 L182 164 L160 172 L140 104 L140 214 L60 214 L60 104 L40 172 L18 164 Z" fill="${c}" ${s}/><path d="M92 26 L100 44 L82 52 Z M108 26 L100 44 L118 52 Z" fill="${l}" ${s}/><path d="M100 44 V214" stroke="${d}" stroke-width="2"/>${[70,100,130,160,190].map(y=>`<circle cx="100" cy="${y}" r="2.200" fill="${d}"/>`).join('')}<rect x="112" y="76" width="18" height="20" rx="2" fill="none" stroke="${d}" stroke-width="1.500"/>`;break;
+  case 'blazer':b=`<path d="M62 34 L90 24 L100 40 L110 24 L138 34 L184 170 L160 178 L140 106 L140 218 L60 218 L60 106 L40 178 L16 170 Z" fill="${c}" ${s}/><path d="M90 24 L100 130 L66 70 Z M110 24 L100 130 L134 70 Z" fill="${shade(c,-.08)}" ${s}/><path d="M100 130 V218" stroke="${d}" stroke-width="2"/><circle cx="100" cy="150" r="3" fill="${d}"/><path d="M68 170 H88 M112 170 H132" stroke="${d}" stroke-width="2.500" stroke-linecap="round"/>`;break;
+  case 'jacket':b=`<path d="M62 34 L90 24 L100 36 L110 24 L138 34 L184 172 L160 180 L142 110 L142 204 L58 204 L58 110 L40 180 L16 172 Z" fill="${c}" ${s}/><path d="M90 24 L100 36 L110 24 L124 54 L100 46 L76 54 Z" fill="${l}" ${s}/><path d="M100 46 V204" stroke="${d}" stroke-width="2"/><rect x="66" y="82" width="26" height="24" rx="3" fill="none" stroke="${d}" stroke-width="2"/><rect x="108" y="82" width="26" height="24" rx="3" fill="none" stroke="${d}" stroke-width="2"/><path d="M58 186 H142" stroke="${d}" stroke-width="2" stroke-dasharray="4 3"/>`;break;
+  case 'trousers':b=`<path d="M62 20 H138 L152 224 H108 L100 84 L92 224 H48 Z" fill="${c}" ${s}/><rect x="62" y="20" width="76" height="14" fill="${l}" ${s}/><path d="M100 34 V84" stroke="${d}" stroke-width="2"/><path d="M72 34 L70 70 M128 34 L130 70" stroke="${d}" stroke-width="1.600" opacity=".7"/>`;break;
+  case 'dress':b=`<path d="M82 18 L96 18 L100 40 L104 18 L118 18 L126 74 L174 226 H26 L74 74 Z" fill="${c}" ${s}/><path d="M74 74 L126 74" stroke="${d}" stroke-width="2"/><path d="M100 40 L126 74 M100 40 L74 74" stroke="${d}" stroke-width="2"/><path d="M60 140 Q100 160 140 140" fill="none" stroke="${d}" stroke-width="1.500" opacity=".6"/><path d="M48 190 Q100 212 152 190" fill="none" stroke="${d}" stroke-width="1.500" opacity=".6"/>`;break;
+  case 'tote':b=`<path d="M72 96 Q72 30 100 30 Q128 30 128 96" fill="none" stroke="${d}" stroke-width="7" stroke-linecap="round"/><path d="M40 90 H160 L168 214 H32 Z" fill="${c}" ${s}/><rect x="70" y="130" width="60" height="50" rx="4" fill="${l}" ${s}/><path d="M40 90 H160" stroke="${d}" stroke-width="3"/>`;break;
+  case 'cap':b=`<path d="M30 146 Q30 66 100 66 Q170 66 170 146 Z" fill="${c}" ${s}/><path d="M100 66 V146 M66 74 Q56 110 56 146 M134 74 Q144 110 144 146" stroke="${d}" stroke-width="1.500" fill="none" opacity=".6"/><path d="M28 146 Q100 168 192 152 Q184 184 100 182 Q40 180 28 146Z" fill="${l}" ${s}/><circle cx="100" cy="64" r="5" fill="${d}"/>`;break;
+  case 'scarf':b=`<path d="M64 34 Q100 12 136 34 L146 120 L124 124 L116 64 Q100 56 84 64 L76 124 L54 120 Z" fill="${c}" ${s}/><path d="M54 120 L76 124 L80 218 L52 214 Z" fill="${l}" ${s}/><path d="M124 124 L146 120 L148 214 L120 218 Z" fill="${l}" ${s}/><path d="M56 206 V222 M64 208 V224 M72 210 V226 M124 210 V226 M132 208 V224 M140 206 V222" stroke="${d}" stroke-width="2" stroke-linecap="round"/><path d="M60 150 H78 M122 150 H142 M60 176 H78 M122 176 H142" stroke="${d}" stroke-width="2.500" opacity=".5"/>`;break;
+  }
+  return `<svg viewBox="0 0 200 240" role="img" aria-hidden="true">${b}</svg>`;
+}
+
+/* ---------- Products ---------- */
+const COL={
+ sand:['Sand','#d8c3a5'],ink:['Ink','#2c3a3f'],clay:['Clay','#b8693d'],sage:['Sage','#8aa17d'],cream:['Cream','#efe6d8'],
+ navy:['Navy','#2f4256'],olive:['Olive','#6f7a4b'],rose:['Dusty rose','#d1a09a'],charcoal:['Charcoal','#3a3d40'],sky:['Sky','#9db8cc'],white:['White','#f7f3ee'],denim:['Denim','#4f6b86'],rust:['Rust','#a4502f']
+};
+const C=(...k)=>k.map(x=>({name:COL[x][0],hex:COL[x][1]}));
+const SZ=['XS','S','M','L','XL'], ONE=['One size'];
+const P=[
+ {id:1,name:'Hemp Everyday Tee',cat:'men',type:'tee',price:89,colors:C('sand','ink','sage'),sizes:SZ,isNew:true,fabric:'55% hemp, 45% organic cotton',desc:'A boxy, breathable tee that softens with every wash. Heavyweight jersey that holds its shape.'},
+ {id:2,name:'Organic Oxford Shirt',cat:'men',type:'shirt',price:159,colors:C('sky','white','cream'),sizes:SZ,fabric:'100% GOTS organic cotton',desc:'The classic button-down in a brushed organic oxford. Easy to dress up or down.'},
+ {id:3,name:'Recycled Wool Blazer',cat:'men',type:'blazer',price:389,colors:C('charcoal','navy'),sizes:SZ,isNew:true,fabric:'70% recycled wool, 30% Tencel™',desc:'Soft-shouldered tailoring built from reclaimed wool. Lined with Tencel™ for breathability.'},
+ {id:4,name:'Tencel Straight Trousers',cat:'men',type:'trousers',price:219,colors:C('ink','olive','sand'),sizes:SZ,fabric:'100% Tencel™ lyocell',desc:'Fluid drape and a clean straight leg. Comfortable from morning meetings to evening plans.'},
+ {id:5,name:'Linen Wrap Dress',cat:'women',type:'dress',price:249,colors:C('clay','sage','cream'),sizes:SZ,isNew:true,fabric:'100% European flax linen',desc:'An adjustable wrap silhouette in lightweight linen. Made for warm days and easy movement.'},
+ {id:6,name:'Organic Rib Tee',cat:'women',type:'tee',price:79,old:99,colors:C('cream','rose','ink'),sizes:SZ,fabric:'100% organic cotton rib',desc:'A close-fitting rib tee that layers well and keeps its shape wash after wash.'},
+ {id:7,name:'Pleated Tencel Trousers',cat:'women',type:'trousers',price:229,colors:C('sage','charcoal','sand'),sizes:SZ,fabric:'100% Tencel™ lyocell',desc:'High-waisted with soft pleats and a fluid leg. Cool, light and wrinkle-resistant.'},
+ {id:8,name:'Cotton Poplin Shirt',cat:'women',type:'shirt',price:169,colors:C('white','sky','rose'),sizes:SZ,isNew:true,fabric:'100% organic cotton poplin',desc:'A crisp, relaxed shirt with a slightly oversized cut. Pearl-effect corozo buttons.'},
+ {id:9,name:'Canvas Everyday Tote',cat:'accessories',type:'tote',price:69,colors:C('sand','ink','clay'),sizes:ONE,fabric:'100% recycled cotton canvas',desc:'Roomy, strong and made from reclaimed cotton. Inner zip pocket and reinforced handles.'},
+ {id:10,name:'Waxed Cotton Cap',cat:'accessories',type:'cap',price:59,colors:C('olive','navy','sand'),sizes:ONE,fabric:'100% organic waxed cotton',desc:'A six-panel cap with an adjustable strap. Water-resistant and sun-ready.'},
+ {id:11,name:'Merino Blend Scarf',cat:'accessories',type:'scarf',price:99,old:119,colors:C('rust','charcoal','cream'),sizes:ONE,isNew:true,fabric:'60% recycled merino, 40% organic cotton',desc:'A generous scarf with hand-knotted fringe. Light enough for cool evenings and air-conditioning.'},
+ {id:12,name:'Recycled Denim Work Jacket',cat:'men',type:'jacket',price:329,colors:C('denim','ink'),sizes:SZ,fabric:'80% recycled denim, 20% organic cotton',desc:'A rugged chore jacket made from post-consumer denim. Roomy pockets and a broken-in feel.'}
+];
+const byId=id=>P.find(p=>p.id===id);
+
+/* ---------- state ---------- */
+let filter='all', sort='featured', cart=[], wish=new Set(), promo=false;
+try{cart=JSON.parse(localStorage.getItem('uw_cart')||'[]');wish=new Set(JSON.parse(localStorage.getItem('uw_wish')||'[]'));}catch(e){}
+const save=()=>{try{localStorage.setItem('uw_cart',JSON.stringify(cart));localStorage.setItem('uw_wish',JSON.stringify([...wish]))}catch(e){}};
+const sel={}; // per-product selected color index
+
+/* ---------- toast ---------- */
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
+
+/* ---------- overlay helpers ---------- */
+function openOv(){$('#overlay').classList.add('open')}
+function closeAll(){$('#overlay').classList.remove('open');$('#drawer').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true');$('#modal').classList.remove('open')}
+$('#overlay').onclick=closeAll;$('#modalX').onclick=closeAll;$('#closeCart').onclick=closeAll;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+function openModal(html,narrow){$('#modalBody').innerHTML=html;$('#modal').classList.toggle('narrow',!!narrow);$('#modal').classList.add('open');$('#drawer').classList.remove('open');openOv();$('#modal').scrollTop=0}
+
+/* ---------- grid ---------- */
+function list(){
+  let l=P.filter(p=>filter==='all'||(filter==='new'?p.isNew:p.cat===filter));
+  if(filter==='wish')l=P.filter(p=>wish.has(p.id));
+  if(sort==='low')l=[...l].sort((a,b)=>a.price-b.price);
+  if(sort==='high')l=[...l].sort((a,b)=>b.price-a.price);
+  return l;
+}
+function renderGrid(){
+  const l=list();
+  $('#grid').innerHTML=l.length?l.map(p=>{
+    const ci=sel[p.id]||0,col=p.colors[ci];
+    const tag=p.old?'Sale':p.isNew?'New':'';
+    return `<article class="card">
+      <div class="card-art" data-open="${p.id}" tabindex="0" role="button" aria-label="Quick view ${p.name}">
+        ${tag?`<span class="tag">${tag}</span>`:''}
+        <button class="heart" data-wish="${p.id}" aria-pressed="${wish.has(p.id)}" aria-label="Save ${p.name} to wishlist"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.400-9-9.200C1.700 7.500 3.600 4 7 4c2 0 3.400 1.100 5 3 1.600-1.900 3-3 5-3 3.400 0 5.300 3.500 4 6.800-2 4.800-9 9.200-9 9.200z"/></svg></button>
+        ${art(p.type,col.hex)}
+      </div>
+      <div class="card-body">
+        <div class="card-meta">${p.cat==='accessories'?'Accessories':p.cat==='men'?'Men':'Women'}</div>
+        <h3>${p.name}</h3>
+        <div class="price-row">
+          <div class="price">${money(p.price)}${p.old?`<s>${money(p.old)}</s>`:''}</div>
+          <div class="swatches">${p.colors.map((c,i)=>`<button class="sw" style="background:${c.hex}" data-sw="${p.id}:${i}" aria-pressed="${i===ci}" aria-label="${c.name}"></button>`).join('')}</div>
+        </div>
+      </div></article>`}).join(''):`<div class="empty">${filter==='wish'?'Your wishlist is empty. Tap the heart on any product to save it.':'No products found.'}</div>`;
+}
+$('#grid').addEventListener('click',e=>{
+  const sw=e.target.closest('[data-sw]');if(sw){e.stopPropagation();const[id,i]=sw.dataset.sw.split(':').map(Number);sel[id]=i;renderGrid();return}
+  const h=e.target.closest('[data-wish]');if(h){e.stopPropagation();toggleWish(+h.dataset.wish);return}
+  const o=e.target.closest('[data-open]');if(o)quickView(+o.dataset.open);
+});
+$('#grid').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.open)quickView(+e.target.dataset.open)});
+function setFilter(f){filter=f;$$('.tab').forEach(t=>t.setAttribute('aria-pressed',t.dataset.f===f));$$('.menu a').forEach(a=>a.classList.toggle('active',a.dataset.filter===f));renderGrid()}
+$('#tabs').onclick=e=>{const t=e.target.closest('.tab');if(t)setFilter(t.dataset.f)};
+$('#sort').onchange=e=>{sort=e.target.value;renderGrid()};
+$$('[data-filter]').forEach(a=>a.addEventListener('click',()=>{setFilter(a.dataset.filter);$('#mobileMenu').classList.remove('open');$('#burger').setAttribute('aria-expanded','false')}));
+
+/* ---------- wishlist ---------- */
+function toggleWish(id){wish.has(id)?wish.delete(id):wish.add(id);save();updateBadges();renderGrid();toast(wish.has(id)?'Saved to wishlist':'Removed from wishlist')}
+$('#wishBtn').onclick=()=>{setFilter('wish');$$('.tab').forEach(t=>t.setAttribute('aria-pressed','false'));$('#shop').scrollIntoView()};
+
+/* ---------- quick view ---------- */
+function quickView(id){
+  const p=byId(id);let ci=sel[id]||0,size=p.sizes.length===1?p.sizes[0]:null,q=1;
+  const render=()=>{
+    $('#modalBody').innerHTML=`<div class="qv"><div class="qv-art" id="qvArt">${art(p.type,p.colors[ci].hex)}</div>
+    <div class="qv-info">
+      <div class="card-meta">${p.cat==='accessories'?'Accessories':p.cat==='men'?'Men':'Women'}</div>
+      <h3>${p.name}</h3>
+      <div class="price">${money(p.price)}${p.old?`<s>${money(p.old)}</s>`:''}</div>
+      <p>${p.desc}</p>
+      <div class="opt-label"><span>Colour: ${p.colors[ci].name}</span></div>
+      <div class="swatches" style="gap:10px">${p.colors.map((c,i)=>`<button class="sw" style="background:${c.hex};width:30px;height:30px" data-c="${i}" aria-pressed="${i===ci}" aria-label="${c.name}"></button>`).join('')}</div>
+      <div class="opt-label"><span>Size${size&&p.sizes.length>1?': '+size:''}</span>${p.sizes.length>1?'<button class="link-btn" data-guide style="background:none;border:0;color:var(--muted);text-decoration:underline;font-weight:500;cursor:pointer">Size guide</button>':''}</div>
+      <div class="sizes">${p.sizes.map(s=>`<button class="size" data-s="${s}" aria-pressed="${s===size}">${s}</button>`).join('')}</div>
+      <div id="qvErr" class="err" style="margin-top:8px" role="alert"></div>
+      <div class="qv-actions"><div class="qty" style="margin:0"><button data-q="-1" aria-label="Decrease quantity">−</button><span>${q}</span><button data-q="1" aria-label="Increase quantity">+</button></div><button class="btn btn-dark" style="flex:1" data-add>Add to cart</button></div>
+      <ul class="details-list"><li>${p.fabric}</li><li>Free returns within 30 days</li><li>Plastic-free packaging</li></ul>
+    </div></div>`;
+  };
+  render();$('#modal').classList.remove('narrow');$('#modal').classList.add('open');$('#drawer').classList.remove('open');openOv();
+  $('#modalBody').onclick=e=>{
+    const c=e.target.closest('[data-c]');if(c){ci=+c.dataset.c;sel[id]=ci;render();renderGrid();return}
+    const s=e.target.closest('[data-s]');if(s){size=s.dataset.s;render();return}
+    const qq=e.target.closest('[data-q]');if(qq){q=Math.max(1,Math.min(10,q+ +qq.dataset.q));render();return}
+    if(e.target.closest('[data-guide]')){policy('size');return}
+    if(e.target.closest('[data-add]')){if(!size){$('#qvErr').textContent='Please choose a size.';return}addToCart(id,ci,size,q);closeAll();openCart()}
+  };
+}
+
+/* ---------- cart ---------- */
+function addToCart(id,ci,size,q){
+  const k=`${id}-${ci}-${size}`;const ex=cart.find(i=>i.k===k);
+  ex?ex.q+=q:cart.push({k,id,ci,size,q});save();updateBadges();renderCart();toast('Added to cart');
+}
+function totals(){
+  const sub=cart.reduce((s,i)=>s+byId(i.id).price*i.q,0);
+  const disc=promo?Math.round(sub*.1*100)/100:0;
+  const after=sub-disc;
+  const ship=cart.length?(after>=FREE_SHIP?0:SHIP):0;
+  return{sub,disc,ship,total:after+ship,after};
+}
+function updateBadges(){
+  const n=cart.reduce((s,i)=>s+i.q,0);const cc=$('#cartCount');cc.textContent=n||'';cc.dataset.n=n;
+  const wc=$('#wishCount');wc.textContent=wish.size||'';wc.dataset.n=wish.size;
+}
+function renderCart(){
+  const body=$('#cartBody'),foot=$('#cartFoot');
+  if(!cart.length){body.innerHTML=`<div class="empty" style="padding:60px 0"><p style="font-size:18px;color:var(--ink);font-weight:600;margin-bottom:8px">Your cart is empty</p><p>Add a piece you'll wear on repeat.</p><button class="btn btn-dark btn-sm" style="margin-top:20px" id="contShop">Start shopping</button></div>`;foot.innerHTML='';
+    const b=$('#contShop');if(b)b.onclick=()=>{closeAll();$('#shop').scrollIntoView()};return}
+  const t=totals();const left=Math.max(0,FREE_SHIP-t.after);
+  body.innerHTML=`<div class="ship-bar">${left>0?`Add <b>${money(left)}</b> more for free shipping`:'You\'ve unlocked <b>free shipping</b> 🎉'}<div class="track"><div class="fill" style="width:${Math.min(100,t.after/FREE_SHIP*100)}%"></div></div></div>`+
+  cart.map(i=>{const p=byId(i.id),c=p.colors[i.ci];return `<div class="line-item"><div class="th">${art(p.type,c.hex)}</div><div><b>${p.name}</b><small>${c.name} · ${i.size}</small><div class="qty"><button data-m="${i.k}" data-d="-1" aria-label="Decrease">−</button><span>${i.q}</span><button data-m="${i.k}" data-d="1" aria-label="Increase">+</button></div><button class="rm" data-rm="${i.k}">Remove</button></div><div class="price">${money(p.price*i.q)}</div></div>`}).join('');
+  foot.innerHTML=`<div class="promo"><label class="sr" for="promoIn">Promo code</label><input class="field" id="promoIn" placeholder="Promo code" value="${promo?'WEAVE10':''}"><button class="btn btn-line btn-sm" id="applyPromo">Apply</button></div>
+  <div class="sum-row"><span>Subtotal</span><span>${money(t.sub)}</span></div>
+  ${promo?`<div class="sum-row" style="color:var(--accent)"><span>Discount (WEAVE10)</span><span>−${money(t.disc)}</span></div>`:''}
+  <div class="sum-row"><span>Shipping</span><span>${t.ship?money(t.ship):'Free'}</span></div>
+  <div class="sum-row total"><span>Total</span><span>${money(t.total)}</span></div>
+  <button class="btn btn-dark btn-block" id="checkout">Checkout</button>`;
+  $('#applyPromo').onclick=()=>{const v=$('#promoIn').value.trim().toUpperCase();if(v==='WEAVE10'){promo=true;toast('Code applied: 10% off')}else{promo=false;toast(v?'That code isn\'t valid':'Enter a promo code')}renderCart()};
+  $('#checkout').onclick=checkout;
+}
+$('#cartBody').addEventListener('click',e=>{
+  const m=e.target.closest('[data-m]');if(m){const it=cart.find(i=>i.k===m.dataset.m);it.q+=+m.dataset.d;if(it.q<1)cart=cart.filter(i=>i!==it);save();updateBadges();renderCart();return}
+  const r=e.target.closest('[data-rm]');if(r){cart=cart.filter(i=>i.k!==r.dataset.rm);save();updateBadges();renderCart()}
+});
+function openCart(){renderCart();$('#drawer').classList.add('open');$('#drawer').setAttribute('aria-hidden','false');$('#modal').classList.remove('open');openOv()}
+$('#cartBtn').onclick=openCart;
+
+/* ---------- checkout (demo) ---------- */
+function checkout(){
+  const t=totals();
+  openModal(`<div class="m-pad"><h3>Checkout</h3><p>This is a demo store. No payment is taken and no data leaves this page.</p>
+  <form id="coForm" novalidate style="display:grid;gap:14px;margin-top:10px">
+    <div class="row2"><label>Full name<input class="field" name="name" autocomplete="name" required></label><label>Email<input class="field" type="email" name="email" autocomplete="email" required></label></div>
+    <label>Address<input class="field" name="addr" autocomplete="street-address" required></label>
+    <div class="row2"><label>City<input class="field" name="city" required></label><label>Postcode<input class="field" name="zip" inputmode="numeric" required></label></div>
+    <label>Payment method<select class="field"><option>Card</option><option>FPX online banking</option><option>Touch 'n Go eWallet</option><option>GrabPay</option></select></label>
+    <div class="sum-row total" style="margin-top:6px"><span>Total to pay</span><span>${money(t.total)}</span></div>
+    <div class="err" id="coErr" role="alert"></div>
+    <button class="btn btn-dark btn-block" type="submit">Place order</button>
+  </form></div>`,true);
+  $('#coForm').onsubmit=e=>{e.preventDefault();const f=e.target;
+    const bad=[...f.querySelectorAll('[required]')].find(x=>!x.value.trim());
+    if(bad){$('#coErr').textContent='Please fill in all fields.';bad.focus();return}
+    if(!/^\S+@\S+\.\S+$/.test(f.email.value)){$('#coErr').textContent='Enter a valid email address.';f.email.focus();return}
+    const no='UW-'+Math.floor(100000+Math.random()*900000);
+    $('#modalBody').innerHTML=`<div class="done"><div class="big">✓</div><h3 style="font-size:26px;margin-bottom:8px">Thank you, ${f.name.value.split(' ')[0]}!</h3><p style="color:var(--muted)">Order <b>${no}</b> is confirmed. We've sent the details to ${f.email.value}.</p><button class="btn btn-dark" style="margin-top:24px" id="doneBtn">Continue shopping</button></div>`;
+    cart=[];promo=false;save();updateBadges();$('#doneBtn').onclick=closeAll};
+}
+
+/* ---------- search ---------- */
+$('#searchBtn').onclick=()=>{
+  openModal(`<div class="search-box"><label class="sr" for="q">Search products</label><input class="field" id="q" placeholder="Search tees, trousers, totes…" autocomplete="off"></div><div class="search-res" id="sres"></div>`,true);
+  const run=()=>{const v=$('#q').value.trim().toLowerCase();const l=v?P.filter(p=>(p.name+' '+p.cat+' '+p.fabric+' '+p.type).toLowerCase().includes(v)):P.slice(0,5);
+    $('#sres').innerHTML=l.length?l.map(p=>`<button class="sr-item" data-id="${p.id}"><div class="th">${art(p.type,p.colors[0].hex)}</div><div><b>${p.name}</b><div class="card-meta">${p.fabric}</div></div><span class="price">${money(p.price)}</span></button>`).join(''):'<div class="empty" style="padding:30px 0">No matches. Try “shirt” or “linen”.</div>'};
+  run();$('#q').oninput=run;$('#q').focus();
+  $('#sres').onclick=e=>{const b=e.target.closest('[data-id]');if(b)quickView(+b.dataset.id)};
+};
+
+/* ---------- policies ---------- */
+const POL={
+ shipping:['Shipping','<p>We ship from Kuala Lumpur within 2 working days of your order.</p><table><tr><th>Region</th><th>Time</th><th>Cost</th></tr><tr><td>Peninsular Malaysia</td><td>2–4 days</td><td>RM12 (free over RM250)</td></tr><tr><td>Sabah &amp; Sarawak</td><td>4–7 days</td><td>RM18 (free over RM250)</td></tr><tr><td>Singapore</td><td>5–7 days</td><td>RM28</td></tr></table><p>All parcels are packed in recycled, plastic-free materials. You\'ll get a tracking link by email once your order ships.</p>'],
+ returns:['Returns &amp; exchanges','<p>Not quite right? Return unworn items with original tags within 30 days of delivery for a full refund or exchange.</p><ul><li>Start a return by emailing hello@urbanweave.example with your order number.</li><li>Returns within Malaysia are free; we\'ll send a prepaid label.</li><li>Refunds reach your original payment method within 5–7 working days of receipt.</li><li>Sale items can be exchanged but not refunded.</li></ul>'],
+ size:['Size guide','<p>Measurements are of the body, in centimetres. Between sizes? Size up for a relaxed fit.</p><table><tr><th>Size</th><th>Chest</th><th>Waist</th><th>Hip</th></tr><tr><td>XS</td><td>82–87</td><td>64–69</td><td>88–93</td></tr><tr><td>S</td><td>88–93</td><td>70–75</td><td>94–99</td></tr><tr><td>M</td><td>94–99</td><td>76–81</td><td>100–105</td></tr><tr><td>L</td><td>100–105</td><td>82–87</td><td>106–111</td></tr><tr><td>XL</td><td>106–113</td><td>88–95</td><td>112–119</td></tr></table>'],
+ privacy:['Privacy policy','<p>We collect only what we need to fulfil your order and improve our service: your name, contact details, delivery address and order history.</p><p>We never sell your data. You can ask to view, correct or delete your information at any time by emailing hello@urbanweave.example.</p><p>Payments are handled by our secure payment partners; we never store full card details.</p>'],
+ terms:['Terms of service','<p>By placing an order you agree to provide accurate information and to pay the total shown at checkout.</p><p>Prices are in Malaysian Ringgit and include applicable taxes. We may cancel orders affected by pricing errors or stock issues and will refund you in full.</p><p>Product images are for illustration; colours may vary slightly by screen. All content on this site belongs to UrbanWeave.</p>']
+};
+function policy(k){openModal(`<div class="m-pad"><h3>${POL[k][0]}</h3>${POL[k][1]}</div>`,true)}
+$$('[data-policy]').forEach(b=>b.onclick=()=>policy(b.dataset.policy));
+
+/* ---------- journal ---------- */
+const POSTS=[
+ {t:'How to wash organic cotton so it lasts a decade',d:'Care · 4 min read',c:['#d9c3a8','#b8693d'],b:'Wash cold, turn garments inside out and use a gentle, plant-based detergent. Skip fabric softener, which coats fibres and dulls the weave. Line dry in the shade, then shake out and fold. Washing less often and spot-cleaning matters as much as how you wash.'},
+ {t:'Meet the workshop behind our linen',d:'Makers · 6 min read',c:['#c2cdbd','#6f8a5a'],b:'Our linen dresses are cut and sewn by a family-run workshop of 24 people in Selangor. Seamstresses earn living wages, work reasonable hours and share profits each quarter. We visit twice a year and publish the audit results.'},
+ {t:'What “sustainable fabric” actually means',d:'Learn · 5 min read',c:['#e2b9a0','#a4502f'],b:'Look beyond the buzzword. A truly low-impact fabric considers water use, chemicals, energy and what happens at end of life. Hemp, linen, Tencel™ and recycled fibres score well. Certifications like GOTS and OEKO-TEX help you verify the claims.'}
+];
+$('#posts').innerHTML=POSTS.map((p,i)=>`<button class="post" data-p="${i}"><div class="post-art"><svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid slice"><rect width="320" height="220" fill="${p.c[0]}"/>${[...Array(9)].map((_,j)=>`<path d="M${-20+j*45} 0 L${60+j*45} 220" stroke="${p.c[1]}" stroke-width="${j%3===0?10:3}" opacity="${j%3===0?.35:.5}"/>`).join('')}${[...Array(6)].map((_,j)=>`<path d="M0 ${20+j*40} L320 ${j*40-20}" stroke="${p.c[1]}" stroke-width="2" opacity=".35"/>`).join('')}</svg></div><small>${p.d}</small><h3>${p.t}</h3></button>`).join('');
+$('#posts').onclick=e=>{const b=e.target.closest('[data-p]');if(!b)return;const p=POSTS[+b.dataset.p];openModal(`<div class="m-pad"><small style="color:var(--muted)">${p.d}</small><h3 style="margin-top:6px">${p.t}</h3><p>${p.b}</p><a class="btn btn-dark btn-sm" href="#shop" id="pShop">Shop the collection</a></div>`,true);$('#pShop').onclick=closeAll};
+
+/* ---------- forms ---------- */
+$('#newsForm').onsubmit=e=>{e.preventDefault();const v=$('#newsEmail').value.trim();if(!/^\S+@\S+\.\S+$/.test(v)){toast('Enter a valid email address');return}toast('Welcome! Your code is WEAVE10');e.target.reset()};
+$('#contactForm').onsubmit=e=>{e.preventDefault();const f=e.target,er=$('#contactErr');
+  if(!f.name.value.trim()||!f.msg.value.trim()){er.textContent='Please add your name and a message.';return}
+  if(!/^\S+@\S+\.\S+$/.test(f.email.value)){er.textContent='Enter a valid email address.';return}
+  er.textContent='';toast('Message sent. We\'ll reply within one working day.');f.reset()};
+
+/* ---------- nav / theme ---------- */
+$('#burger').onclick=()=>{const m=$('#mobileMenu');const o=m.classList.toggle('open');$('#burger').setAttribute('aria-expanded',o)};
+$$('.mobile-menu a').forEach(a=>a.addEventListener('click',()=>{$('#mobileMenu').classList.remove('open')}));
+$('#themeBtn').onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=dark?'light':'dark'};
+
+/* ---------- counters ---------- */
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(!en.isIntersecting)return;io.unobserve(en.target);const el=en.target,to=+el.dataset.count;let s=null;const step=ts=>{s=s||ts;const p=Math.min(1,(ts-s)/1400);el.textContent=Math.round(to*(1-Math.pow(1-p,3))).toLocaleString();if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}),{threshold:.5});
+$$('[data-count]').forEach(el=>io.observe(el));
+
+/* ---------- illustrations ---------- */
+$('#heroArt').innerHTML=`<svg viewBox="0 0 460 506" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Two models wearing UrbanWeave tailoring">
+<rect width="460" height="506" fill="var(--wall)"/>
+<g opacity=".5"><path d="M0 60 Q120 20 240 70 T460 40 V0 H0Z" fill="#fff" opacity=".35"/></g>
+<!-- back person -->
+<path d="M120 506 V300 Q120 235 190 225 H270 Q340 235 340 300 V506Z" fill="#2a2d33"/>
+<path d="M190 225 L230 330 L270 225 L252 218 H208Z" fill="#f2efea"/>
+<path d="M228 232 L246 232 L252 262 L240 440 L226 262Z" fill="#23262b"/>
+<g fill="#cfd3d8" opacity=".9">${[...Array(16)].map((_,i)=>`<circle cx="${236+((i%2)?3:-3)}" cy="${250+i*11}" r="1.800"/>`).join('')}</g>
+<path d="M160 235 L200 225 L228 330 L190 292Z" fill="#363a41"/><path d="M300 235 L270 225 L232 330 L270 292Z" fill="#363a41"/>
+<rect x="212" y="170" width="36" height="58" rx="14" fill="#b9805d"/>
+<ellipse cx="230" cy="135" rx="42" ry="50" fill="#c68e68"/>
+<path d="M186 128 Q186 78 232 78 Q278 80 276 128 Q262 100 232 104 Q204 104 186 128Z" fill="#17181a"/>
+<path d="M148 330 Q160 270 205 255 L222 232 Q232 242 222 262 Q205 280 190 330Z" fill="#2a2d33"/>
+<circle cx="224" cy="250" r="13" fill="#c68e68"/>
+<rect x="136" y="330" width="42" height="30" rx="6" fill="#d9dbde"/><circle cx="157" cy="345" r="9" fill="#b8693d"/>
+<!-- front person -->
+<path d="M200 506 V420 Q205 365 270 350 H420 Q470 360 470 420 V506Z" fill="#f6f3ee"/>
+<path d="M300 350 L345 392 L392 350Z" fill="#e6e2db"/>
+<rect x="326" y="316" width="40" height="40" rx="16" fill="#b9805d"/>
+<ellipse cx="346" cy="282" rx="42" ry="46" fill="#c68e68"/>
+<path d="M303 276 Q302 232 348 230 Q392 234 390 278 Q376 254 346 256 Q320 258 303 276Z" fill="#16171a"/>
+<path d="M250 440 Q250 390 290 372 L320 372 L318 408 Q300 430 296 470Z" fill="#f6f3ee" stroke="#e6e2db" stroke-width="2"/>
+<ellipse cx="300" cy="352" rx="22" ry="17" fill="#c68e68"/><ellipse cx="322" cy="334" rx="14" ry="11" fill="#c68e68"/>
+<rect x="268" y="440" width="46" height="26" rx="8" fill="#e8e8ea"/><rect x="276" y="445" width="30" height="16" rx="5" fill="#2a2d33"/>
+</svg>`;
+const cats={A:['jacket','#3a4a4a'],B:['dress','#8a4a30'],C:['tote','#4a5a40']};
+Object.entries(cats).forEach(([k,[t,c]])=>{$('#catArt'+k).innerHTML=art(t,c)});
+$('#storyArt').innerHTML=`<svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Loom threads illustration"><rect width="400" height="420" fill="#ecd0b3"/>${[...Array(18)].map((_,i)=>`<line x1="${20+i*22}" y1="0" x2="${20+i*22}" y2="420" stroke="#b8693d" stroke-width="3" opacity=".55"/>`).join('')}${[...Array(9)].map((_,j)=>[...Array(18)].map((_,i)=>((i+j)%2?`<rect x="${14+i*22}" y="${30+j*44}" width="16" height="22" rx="4" fill="#1f2d2e" opacity=".85"/>`:`<rect x="0" y="${30+j*44}" width="0" height="0"/>`)).join('')).join('')}<rect x="0" y="0" width="400" height="14" fill="#1f2d2e"/><rect x="0" y="406" width="400" height="14" fill="#1f2d2e"/></svg>`;
+
+/* init */
+renderGrid();updateBadges();renderCart();
+})();
+</script>
+</body>
+</html>
